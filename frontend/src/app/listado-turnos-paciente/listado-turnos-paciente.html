@@ -1,0 +1,53 @@
+<div class="mis-turnos">
+  <h1>Mis turnos</h1>
+
+  <p class="descripcion">
+    Aquí podés consultar tus próximos turnos médicos.
+  </p>
+
+  @if (turnos.length > 0) {
+    <div class="tabla-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Médico</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (turno of turnos; track turno.fecha + turno.hora) {
+            <tr>
+              <td>{{ turno.fecha }}</td>
+              <td>{{ turno.hora }}</td>
+              <td>{{ turno.medico }}</td>
+              <td>
+                <span
+                  class="estado"
+                  [class.confirmado]="turno.estado === 'Confirmado'"
+                  [class.pendiente]="turno.estado === 'Pendiente'"
+                >
+                  {{ turno.estado }}
+                </span>
+              </td>
+              <td>
+                @if (turno.puedeCancelar) {
+                  <button type="button" class="btn-cancelar">
+                    Cancelar
+                  </button>
+                } @else {
+                  <span class="no-disponible">No disponible</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <p class="sin-turnos">No tenés turnos registrados.</p>
+  }
+</div>
