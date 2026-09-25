@@ -1,0 +1,60 @@
+<section class="listado-turnos">
+  <div class="encabezado">
+    <h1>Mis turnos</h1>
+    <p>Consultá los turnos reservados para una fecha y registrá su asistencia.</p>
+  </div>
+
+  <div class="filtro-fecha">
+    <label for="fecha">Fecha</label>
+
+    <input
+      id="fecha"
+      type="date"
+      [(ngModel)]="fechaSeleccionada"
+    />
+  </div>
+
+  <div class="turnos">
+    <h2>Turnos reservados</h2>
+
+    @for (turno of turnos; track turno.id) {
+      <article class="turno">
+        <div class="datos-turno">
+          <span class="hora">{{ turno.hora }}</span>
+
+          <div>
+            <strong>{{ turno.paciente }}</strong>
+
+            <span
+              class="estado"
+              [class.atendido]="turno.estado === 'Atendido'"
+              [class.ausente]="turno.estado === 'Ausente'"
+            >
+              {{ turno.estado }}
+            </span>
+          </div>
+        </div>
+
+        @if (turno.estado === 'Reservado') {
+          <div class="acciones">
+            <button
+              type="button"
+              class="btn-atendido"
+              (click)="marcarAtendido(turno)"
+            >
+              Atendido
+            </button>
+
+            <button
+              type="button"
+              class="btn-ausente"
+              (click)="marcarAusente(turno)"
+            >
+              Ausente
+            </button>
+          </div>
+        }
+      </article>
+    }
+  </div>
+</section>
