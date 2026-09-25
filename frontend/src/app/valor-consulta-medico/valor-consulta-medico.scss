@@ -1,0 +1,102 @@
+.valor-consulta {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.encabezado {
+  margin-bottom: 30px;
+
+  h1 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-weight: 600;
+  }
+
+  select,
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+}
+
+.formulario button {
+  width: fit-content;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.formulario button:hover {
+  border-color: #333;
+}
+
+.mensaje {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.valores {
+  margin-top: 35px;
+
+  h2 {
+    margin-bottom: 15px;
+  }
+}
+
+.medico {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.medico strong {
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .valor-consulta {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .medico {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
