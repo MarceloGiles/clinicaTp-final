@@ -1,0 +1,173 @@
+.admin-turnos {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.encabezado {
+  margin-bottom: 30px;
+
+  h1 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.filtro-fecha {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 30px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 600;
+  }
+
+  input {
+    width: 220px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  button {
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      border-color: #333;
+    }
+  }
+}
+
+.turnos {
+  h2 {
+    margin-bottom: 15px;
+  }
+}
+
+.turno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.datos-turno {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 25px;
+  flex: 1;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+.datos-turno strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.datos-turno span {
+  font-size: 15px;
+}
+
+.estado {
+  font-weight: 600;
+}
+
+.estado.cancelado {
+  font-weight: 700;
+}
+
+.acciones {
+  min-width: 130px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.acciones button {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.acciones button:hover {
+  border-color: #333;
+}
+
+.turno-cancelado {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sin-turnos {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.mensaje {
+  margin-top: 25px;
+  padding: 12px;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+@media (max-width: 900px) {
+  .turno {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .datos-turno {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .acciones {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-turnos {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .filtro-fecha {
+    align-items: flex-start;
+    flex-direction: column;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .datos-turno {
+    grid-template-columns: 1fr;
+  }
+}
