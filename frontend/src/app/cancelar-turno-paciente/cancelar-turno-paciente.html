@@ -1,0 +1,63 @@
+<section class="cancelar-turno">
+  <div class="encabezado">
+    <h1>Mis turnos</h1>
+    <p>Consultá tus turnos reservados y cancelá los que correspondan.</p>
+  </div>
+
+  <div class="turnos">
+    @for (turno of turnos; track turno.id) {
+      <article class="turno">
+        <div class="datos-turno">
+          <div>
+            <strong>{{ turno.fecha }}</strong>
+            <span>{{ turno.hora }}</span>
+          </div>
+
+          <div>
+            <strong>Médico</strong>
+            <span>{{ turno.medico }}</span>
+          </div>
+
+          <div>
+            <strong>Estado</strong>
+            <span
+              class="estado"
+              [class.cancelado]="turno.estado === 'Cancelado'"
+            >
+              {{ turno.estado }}
+            </span>
+          </div>
+        </div>
+
+        <div class="accion">
+          @if (turno.estado === 'Reservado' && turno.puedeCancelar) {
+            <button
+              type="button"
+              (click)="cancelarTurno(turno)"
+            >
+              Cancelar turno
+            </button>
+          }
+
+          @if (turno.estado === 'Reservado' && !turno.puedeCancelar) {
+            <span class="no-disponible">
+              No se puede cancelar
+            </span>
+          }
+
+          @if (turno.estado === 'Cancelado') {
+            <span class="cancelado">
+              Turno cancelado
+            </span>
+          }
+        </div>
+      </article>
+    }
+  </div>
+
+  @if (mensaje) {
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+  }
+</section>
