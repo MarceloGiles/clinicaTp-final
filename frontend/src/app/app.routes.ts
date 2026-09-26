@@ -31,6 +31,12 @@ export const routes: Routes = [
         .then(m => m.CancelarTurnoPaciente),
   },
   {
+    path: 'admin-turnos',
+    loadComponent: () =>
+      import('./admin-turnos/admin-turnos')
+        .then(m => m.AdminTurnos),
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',

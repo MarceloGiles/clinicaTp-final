@@ -1,0 +1,94 @@
+<section class="admin-turnos">
+  <div class="encabezado">
+    <h1>Gestión de turnos</h1>
+    <p>Consultá y administrá los turnos registrados.</p>
+  </div>
+
+  <div class="filtro-fecha">
+    <label for="fecha">Filtrar por fecha</label>
+
+    <input
+      id="fecha"
+      type="date"
+      [(ngModel)]="fechaSeleccionada"
+    />
+
+    @if (fechaSeleccionada) {
+      <button
+        type="button"
+        (click)="fechaSeleccionada = ''"
+      >
+        Mostrar todos
+      </button>
+    }
+  </div>
+
+  <div class="turnos">
+    <h2>Turnos</h2>
+
+    @if (turnosFiltrados.length === 0) {
+      <p class="sin-turnos">
+        No hay turnos registrados para la fecha seleccionada.
+      </p>
+    }
+
+    @for (turno of turnosFiltrados; track turno.id) {
+      <article class="turno">
+        <div class="datos-turno">
+          <div>
+            <strong>Fecha</strong>
+            <span>{{ turno.fecha }}</span>
+          </div>
+
+          <div>
+            <strong>Hora</strong>
+            <span>{{ turno.hora }}</span>
+          </div>
+
+          <div>
+            <strong>Paciente</strong>
+            <span>{{ turno.paciente }}</span>
+          </div>
+
+          <div>
+            <strong>Médico</strong>
+            <span>{{ turno.medico }}</span>
+          </div>
+
+          <div>
+            <strong>Estado</strong>
+            <span
+              class="estado"
+              [class.cancelado]="turno.estado === 'Cancelado'"
+            >
+              {{ turno.estado }}
+            </span>
+          </div>
+        </div>
+
+        <div class="acciones">
+          @if (turno.estado === 'Reservado') {
+            <button
+              type="button"
+              (click)="cancelarTurno(turno)"
+            >
+              Cancelar turno
+            </button>
+          }
+
+          @if (turno.estado === 'Cancelado') {
+            <span class="turno-cancelado">
+              Cancelado
+            </span>
+          }
+        </div>
+      </article>
+    }
+  </div>
+
+  @if (mensaje) {
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+  }
+</section>
