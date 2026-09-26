@@ -20,7 +20,7 @@ PORT=3000
 
 2) ARRANCAR EL BACKEND
 
-cd /home/marcelogiles2003/Tec_DesarolloWeb/Desarrollo_APP_Web/clinicaTp-final/backend
+cd/backend
 npm run start
 
 URL esperada:

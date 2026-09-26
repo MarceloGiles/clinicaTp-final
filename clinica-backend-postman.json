@@ -1,0 +1,238 @@
+{
+  "info": {
+    "name": "Clinica API",
+    "description": "Colección de pruebas para la API de clínica",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/clinica/status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "status"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Pacientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/clinica/pacientes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "pacientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Paciente By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/clinica/pacientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "pacientes",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Paciente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana Lopez\",\n  \"dni\": \"12345678\",\n  \"email\": \"ana@test.com\",\n  \"telefono\": \"1122334455\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/clinica/pacientes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "pacientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Paciente",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"telefono\": \"9988776655\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/clinica/pacientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "pacientes",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Paciente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/clinica/pacientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "pacientes",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Medicos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/clinica/medicos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "medicos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Medico",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Dr. Gómez\",\n  \"especialidad\": \"Cardiología\",\n  \"matricula\": \"MN-2024\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/clinica/medicos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "medicos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Turnos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/clinica/turnos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "turnos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Turno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fecha\": \"2026-09-30T10:30:00.000Z\",\n  \"motivo\": \"Consulta general\",\n  \"estado\": \"pendiente\",\n  \"paciente\": 1,\n  \"medico\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/clinica/turnos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "clinica",
+            "turnos"
+          ]
+        }
+      }
+    }
+  ]
+}
