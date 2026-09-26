@@ -1,0 +1,117 @@
+.cancelar-turno {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.encabezado {
+  margin-bottom: 30px;
+
+  h1 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.turnos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.turno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.datos-turno {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+.datos-turno strong {
+  font-weight: 600;
+}
+
+.datos-turno span {
+  font-size: 15px;
+}
+
+.estado {
+  font-weight: 600;
+}
+
+.estado.cancelado {
+  font-weight: 700;
+}
+
+.accion {
+  display: flex;
+  align-items: center;
+  min-width: 150px;
+  justify-content: flex-end;
+}
+
+.accion button {
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.accion button:hover {
+  border-color: #333;
+}
+
+.no-disponible,
+.cancelado {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mensaje {
+  margin-top: 25px;
+  padding: 12px;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+@media (max-width: 700px) {
+  .cancelar-turno {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .turno {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .datos-turno {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .accion {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
