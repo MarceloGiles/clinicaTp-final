@@ -19,6 +19,12 @@ export const routes: Routes = [
         .then(m => m.ReservarTurnoPaciente),
   },
   {
+    path: 'listado-turnos-medico',
+    loadComponent: () =>
+      import('./listado-turnos-medico/listado-turnos-medico')
+        .then(m => m.ListadoTurnosMedico),
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
