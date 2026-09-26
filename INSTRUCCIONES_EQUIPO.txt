@@ -1,0 +1,78 @@
+CLINICA TP - INSTRUCCIONES PARA EL EQUIPO
+
+Proyecto: clinicaTp-final
+
+1) BASE DE DATOS POSTGRESQL
+
+Host: localhost
+Puerto: 5432
+Usuario: clinica_user
+Password: clinica123
+Base de datos: clinica_db
+
+Archivo .env del backend:
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=clinica_user
+DB_PASSWORD=clinica123
+DB_NAME=clinica_db
+PORT=3000
+
+2) ARRANCAR EL BACKEND
+
+cd /home/marcelogiles2003/Tec_DesarolloWeb/Desarrollo_APP_Web/clinicaTp-final/backend
+npm run start
+
+URL esperada:
+http://localhost:3000
+
+Si hay conflicto de puerto 3000:
+1) Revisar procesos en ese puerto
+   lsof -nP -iTCP:3000 -sTCP:LISTEN
+2) Liberar puerto
+   kill -9 <PID>
+3) Volver a arrancar
+   npm run start
+
+3) ENDPOINTS PRINCIPALES
+
+GET /clinica/status
+GET /clinica/pacientes
+GET /clinica/pacientes/:id
+POST /clinica/pacientes
+PATCH /clinica/pacientes/:id
+DELETE /clinica/pacientes/:id
+
+GET /clinica/medicos
+GET /clinica/medicos/:id
+POST /clinica/medicos
+PATCH /clinica/medicos/:id
+DELETE /clinica/medicos/:id
+
+GET /clinica/turnos
+GET /clinica/turnos/:id
+POST /clinica/turnos
+PATCH /clinica/turnos/:id
+DELETE /clinica/turnos/:id
+
+4) EJEMPLOS RAPIDOS
+
+Crear paciente:
+curl -X POST http://localhost:3000/clinica/pacientes -H "Content-Type: application/json" -d '{"nombre":"Ana Lopez","dni":"12345678","email":"ana@test.com","telefono":"1122334455"}'
+
+Ver pacientes:
+curl http://localhost:3000/clinica/pacientes
+
+Ver estado:
+curl http://localhost:3000/clinica/status
+
+5) NOTAS
+
+- El backend ya quedó configurado con PostgreSQL y TypeORM.
+- La base se sincroniza con synchronize: true.
+- El proyecto tiene una estructura de NestJS con entidades y CRUD para pacientes, medicos y turnos.
+- Si quieren agregar entidades o nuevas rutas, hacerlo en la carpeta backend/src/clinica.
+
+6) GIT
+
+Este archivo fue creado para dejar instrucciones visibles para todo el equipo.
