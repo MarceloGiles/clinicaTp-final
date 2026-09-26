@@ -1,0 +1,61 @@
+<section class="valor-consulta">
+  <div class="encabezado">
+    <h1>Valor de consulta</h1>
+    <p>Modificá el valor de la consulta de los médicos.</p>
+  </div>
+
+  <div class="formulario">
+    <div class="campo">
+      <label for="medico">Médico</label>
+
+      <select
+        id="medico"
+        [(ngModel)]="medicoSeleccionado"
+        (ngModelChange)="seleccionarMedico()"
+      >
+        <option value="">Seleccioná un médico</option>
+
+        @for (medico of medicos; track medico.id) {
+          <option [value]="medico.id">
+            {{ medico.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="valor">Nuevo valor de consulta</label>
+
+      <input
+        id="valor"
+        type="number"
+        min="1"
+        [(ngModel)]="nuevoValor"
+      />
+    </div>
+
+    <button
+      type="button"
+      (click)="modificarValor()"
+    >
+      Guardar nuevo valor
+    </button>
+  </div>
+
+  @if (mensaje) {
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+  }
+
+  <div class="valores">
+    <h2>Valores actuales</h2>
+
+    @for (medico of medicos; track medico.id) {
+      <div class="medico">
+        <span>{{ medico.nombre }}</span>
+        <strong>${{ medico.valorConsulta }}</strong>
+      </div>
+    }
+  </div>
+</section>
