@@ -1,0 +1,82 @@
+<section class="reservar-turno">
+  <div class="encabezado">
+    <h1>Reservar turno</h1>
+    <p>Seleccioná una fecha, un médico y un horario disponible.</p>
+  </div>
+
+  <div class="formulario">
+
+    <div class="campo">
+      <label for="fecha">Fecha</label>
+
+      <input
+        id="fecha"
+        type="date"
+        [(ngModel)]="fechaSeleccionada"
+        [min]="fechaMinima"
+        [max]="fechaMaxima"
+      />
+
+      <small>
+        Podés reservar con hasta 30 días de anticipación.
+      </small>
+    </div>
+
+    <div class="campo">
+      <label for="medico">Médico</label>
+
+      <select
+        id="medico"
+        [(ngModel)]="medicoSeleccionado"
+      >
+        <option value="">Seleccionar médico</option>
+
+        @for (medico of medicos; track medico.id) {
+          <option [value]="medico.id">
+            {{ medico.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Horario disponible</label>
+
+      <div class="horarios">
+        @for (horario of horarios; track horario.hora) {
+
+          <button
+            type="button"
+            class="horario"
+            [class.ocupado]="horario.ocupado"
+            [class.seleccionado]="horarioSeleccionado === horario.hora"
+            [disabled]="horario.ocupado"
+            (click)="seleccionarHorario(horario.hora, horario.ocupado)"
+          >
+            {{ horario.hora }}
+
+            @if (horario.ocupado) {
+              <span>Ocupado</span>
+            }
+          </button>
+
+        }
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="btn-reservar"
+      (click)="reservarTurno()"
+    >
+      Reservar turno
+    </button>
+
+    @if (mensaje) {
+      <p class="mensaje">
+        {{ mensaje }}
+      </p>
+    }
+
+  </div>
+</section>

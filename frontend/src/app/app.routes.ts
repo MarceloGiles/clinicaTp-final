@@ -13,6 +13,12 @@ export const routes: Routes = [
         .then(m => m.ListadoTurnosPaciente),
   },
   {
+    path: 'reservar-turno',
+    loadComponent: () =>
+      import('./reservar-turno-paciente/reservar-turno-paciente')
+        .then(m => m.ReservarTurnoPaciente),
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
