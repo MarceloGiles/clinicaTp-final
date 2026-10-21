@@ -5,6 +5,12 @@
     Aquí podés consultar tus próximos turnos médicos.
   </p>
 
+  @if (mensaje) {
+    <p class="mensaje" role="status">
+      {{ mensaje }}
+    </p>
+  }
+
   @if (turnos.length > 0) {
     <div class="tabla-container">
       <table>
@@ -24,22 +30,31 @@
               <td>{{ turno.fecha }}</td>
               <td>{{ turno.hora }}</td>
               <td>{{ turno.medico }}</td>
+
               <td>
                 <span
                   class="estado"
                   [class.confirmado]="turno.estado === 'Confirmado'"
                   [class.pendiente]="turno.estado === 'Pendiente'"
+                  [class.cancelado]="turno.estado === 'Cancelado'"
                 >
                   {{ turno.estado }}
                 </span>
               </td>
+
               <td>
-                @if (turno.puedeCancelar) {
-                  <button type="button" class="btn-cancelar">
+                @if (turno.puedeCancelar && turno.estado !== 'Cancelado') {
+                  <button
+                    type="button"
+                    class="btn-cancelar"
+                    (click)="cancelarTurno(turno)"
+                  >
                     Cancelar
                   </button>
                 } @else {
-                  <span class="no-disponible">No disponible</span>
+                  <span class="no-disponible">
+                    No disponible
+                  </span>
                 }
               </td>
             </tr>
@@ -48,6 +63,8 @@
       </table>
     </div>
   } @else {
-    <p class="sin-turnos">No tenés turnos registrados.</p>
+    <p class="sin-turnos">
+      No tenés turnos registrados.
+    </p>
   }
 </div>
