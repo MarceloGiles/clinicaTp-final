@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 interface Turno {
@@ -17,7 +17,10 @@ interface Turno {
   styleUrl: './listado-turnos-medico.scss',
 })
 export class ListadoTurnosMedico {
+  constructor(private cdr: ChangeDetectorRef) {}
+
   fechaSeleccionada = '';
+  mensaje = '';
 
   turnos: Turno[] = [
     {
@@ -68,18 +71,29 @@ export class ListadoTurnosMedico {
   }
 
   marcarAtendido(turno: Turno): void {
-    if (turno.estado !== 'Reservado') {
-      return;
-    }
-
-    turno.estado = 'Atendido';
+    this.actualizarEstado(turno, 'Atendido');
   }
 
   marcarAusente(turno: Turno): void {
+    this.actualizarEstado(turno, 'Ausente');
+  }
+
+  private actualizarEstado(
+    turno: Turno,
+    nuevoEstado: 'Atendido' | 'Ausente',
+  ): void {
     if (turno.estado !== 'Reservado') {
       return;
     }
 
-    turno.estado = 'Ausente';
+    this.turnos = this.turnos.map((t) =>
+      t.id === turno.id
+        ? { ...t, estado: nuevoEstado }
+        : t,
+    );
+
+    this.mensaje = `El turno de ${turno.paciente} ahora figura como ${nuevoEstado}.`;
+
+    this.cdr.detectChanges();
   }
 }
