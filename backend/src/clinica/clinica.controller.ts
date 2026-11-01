@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ClinicaService } from './clinica.service';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('clinica')
 export class ClinicaController {
@@ -7,6 +8,12 @@ export class ClinicaController {
 
   @Get('status')
   getStatus() {
-    return this.clinicaService.getStatus();
+    return this.clinicaService.getStatus()
   }
+
+  @Post('login')
+  login(@Body() dato: LoginDto) {
+    return this.clinicaService.login(dato)
+  }
+
 }
