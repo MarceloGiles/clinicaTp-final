@@ -1,20 +1,24 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Turno } from './turno.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Usuario } from './usuario.entity';
 
 @Entity('medicos')
 export class Medico {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  nombre: string;
+  @OneToOne(() => Usuario, { eager: true })
+  @JoinColumn({ name: 'id_usuario' })
+  usuario: Usuario;
 
-  @Column()
-  especialidad: string;
+  @Column({ unique: true, type: 'int' })
+  matricula: number;
 
-  @Column({ unique: true })
-  matricula: string;
-
-  @OneToMany(() => Turno, (turno) => turno.medico)
-  turnos: Turno[];
+  @Column({ type: 'int' })
+  valor_consulta: number;
 }
