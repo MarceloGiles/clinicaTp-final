@@ -47,6 +47,6 @@ export class Login {
           this.mensaje = err.error?.message ?? 'Credenciales incorrectas.';
           this.cdr.markForCheck();
         },
-      });git status --short | grep -v node_modules
+      });
   }
 }
