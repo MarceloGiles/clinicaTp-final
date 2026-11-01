@@ -12,7 +12,7 @@ export class Medico {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Usuario, { eager: true })
+  @OneToOne(() => Usuario, { eager: true, nullable: false })
   @JoinColumn({ name: 'id_usuario' })
   usuario: Usuario;
 
