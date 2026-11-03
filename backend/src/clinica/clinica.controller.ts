@@ -19,7 +19,7 @@ import {
 } from './dto/acciones.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Clinica')
+@ApiTags('Clínica')
 @Controller('clinica')
 export class ClinicaController {
   constructor(private readonly clinicaService: ClinicaService) {}
