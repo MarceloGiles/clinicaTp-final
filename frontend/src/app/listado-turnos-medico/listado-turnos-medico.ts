@@ -1,99 +1,74 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface Turno {
-  id: number;
-  fecha: string;
-  hora: string;
-  paciente: string;
-  estado: 'Reservado' | 'Atendido' | 'Ausente';
-}
+import { DatePipe } from '@angular/common';
+import { Clinica, Reserva } from '../servicios/clinica'
 
 @Component({
   selector: 'app-listado-turnos-medico',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DatePipe],
   templateUrl: './listado-turnos-medico.html',
   styleUrl: './listado-turnos-medico.scss',
 })
-export class ListadoTurnosMedico {
-  constructor(private cdr: ChangeDetectorRef) {}
+
+export class ListadoTurnosMedico implements OnInit {
+  constructor(private clinica: Clinica, private cdr: ChangeDetectorRef) {}
 
   fechaSeleccionada = '';
   mensaje = '';
+  idMedico = 0;
+  turnos: Reserva[] = [];
 
-  turnos: Turno[] = [
-    {
-      id: 1,
-      fecha: '2026-10-21',
-      hora: '08:00',
-      paciente: 'Ana Martínez',
-      estado: 'Reservado',
-    },
-    {
-      id: 2,
-      fecha: '2026-10-21',
-      hora: '09:00',
-      paciente: 'Pedro Gómez',
-      estado: 'Reservado',
-    },
-    {
-      id: 3,
-      fecha: '2026-10-21',
-      hora: '10:00',
-      paciente: 'Laura Fernández',
-      estado: 'Atendido',
-    },
-    {
-      id: 4,
-      fecha: '2026-10-22',
-      hora: '11:00',
-      paciente: 'Juan Rodríguez',
-      estado: 'Reservado',
-    },
-    {
-      id: 5,
-      fecha: '2026-10-22',
-      hora: '13:00',
-      paciente: 'Sofía López',
-      estado: 'Ausente',
-    },
-  ];
-
-  get turnosFiltrados(): Turno[] {
-    if (!this.fechaSeleccionada) {
-      return this.turnos;
-    }
-
-    return this.turnos.filter(
-      (turno) => turno.fecha === this.fechaSeleccionada,
-    );
+  ngOnInit(): void {
+    this.clinica.medicoActual().subscribe((medico) => {
+      if (!medico) {
+        this.mensaje = 'No se encontró el médico.';
+        this.cdr.markForCheck();
+        return;
+      }
+      this.idMedico = medico.id;
+      this.cargar();
+    });
   }
 
-  marcarAtendido(turno: Turno): void {
-    this.actualizarEstado(turno, 'Atendido');
+  cargar(): void {
+    this.clinica
+      .listarReservas({ id_medico: this.idMedico, fecha: this.fechaSeleccionada || undefined })
+      .subscribe({
+        next: (reservas) => {
+          this.turnos = reservas;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.mensaje = 'No se pudieron cargar los turnos.';
+          this.cdr.markForCheck();
+        },
+      });
   }
 
-  marcarAusente(turno: Turno): void {
-    this.actualizarEstado(turno, 'Ausente');
+  verTodas(): void {
+    this.fechaSeleccionada = '';
+    this.cargar();
   }
 
-  private actualizarEstado(
-    turno: Turno,
-    nuevoEstado: 'Atendido' | 'Ausente',
-  ): void {
-    if (turno.estado !== 'Reservado') {
-      return;
-    }
+  marcarAtendido(turno: Reserva): void {
+    this.cambiarEstado(turno, 'ATENDIDO')
+  }
 
-    this.turnos = this.turnos.map((t) =>
-      t.id === turno.id
-        ? { ...t, estado: nuevoEstado }
-        : t,
-    );
+  marcarAusente(turno: Reserva): void {
+    this.cambiarEstado(turno, 'AUSENTE')
+  }
 
-    this.mensaje = `El turno de ${turno.paciente} ahora figura como ${nuevoEstado}.`;
-
-    this.cdr.detectChanges();
+  private cambiarEstado(turno: Reserva, estado: 'ATENDIDO' | 'AUSENTE'): void {
+    this.clinica.cambiarEstado(turno.id, estado).subscribe({
+      next: () => {
+        this.mensaje = `${turno.paciente} -> ${estado}.`;
+        this.cargar();
+      },
+      error: (err) => {
+        this.mensaje = err.error?.message ?? 'No se pudo cambiar el estado.';
+        this.cdr.markForCheck();
+      },
+    });
   }
 }

@@ -1,11 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Clinica, Medico } from '../servicios/clinica'
 
-interface Medico {
-  id: number;
-  nombre: string;
-  valorConsulta: number;
-}
 
 @Component({
   selector: 'app-valor-consulta-medico',
@@ -14,28 +10,32 @@ interface Medico {
   templateUrl: './valor-consulta-medico.html',
   styleUrl: './valor-consulta-medico.scss',
 })
+
 export class ValorConsultaMedico {
-  medicos: Medico[] = [
-    {
-      id: 1,
-      nombre: 'Dr. Juan Pérez',
-      valorConsulta: 15000,
-    },
-    {
-      id: 2,
-      nombre: 'Dra. María González',
-      valorConsulta: 18000,
-    },
-    {
-      id: 3,
-      nombre: 'Dr. Carlos López',
-      valorConsulta: 16000,
-    },
-  ];
+  medicos: Medico[] = [];
 
   medicoSeleccionado = '';
   nuevoValor = 0;
   mensaje = '';
+
+  constructor(private clinica: Clinica, private cdr: ChangeDetectorRef){}
+
+  ngOnInit(): void {
+    this.cargar()
+  }
+
+  cargar(): void {
+    this.clinica.listarMedicos().subscribe({
+      next: (medicos) => {
+        this.medicos = medicos;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.mensaje = 'No se pudieron cargar los médicos.';
+        this.cdr.markForCheck();
+      },
+    });
+  }
 
   seleccionarMedico(): void {
     this.mensaje = '';
@@ -43,13 +43,7 @@ export class ValorConsultaMedico {
     const medico = this.medicos.find(
       medico => medico.id === Number(this.medicoSeleccionado)
     );
-
-    if (medico) {
-      this.nuevoValor = medico.valorConsulta;
-    } else {
-      this.nuevoValor = 0;
-    }
-  }
+}
 
   modificarValor(): void {
     this.mensaje = '';
@@ -68,13 +62,19 @@ export class ValorConsultaMedico {
     medico => medico.id === Number(this.medicoSeleccionado)
   );
 
-  if (!medico) {
-    return;
+  this.clinica
+      .modificarValor(Number(this.medicoSeleccionado), Number(this.nuevoValor))
+      .subscribe({
+        next: () => {
+          this.mensaje = 'El valor se actualizo correctamente.';
+          this.cargar();
+        },
+        error: (err) => {
+          this.mensaje = err.error?.message ?? 'No se pudo actualizar el valor.';
+          this.cdr.markForCheck();
+        },
+      });
+  
   }
-
-  medico.valorConsulta = Number(this.nuevoValor);
-
-  this.mensaje = `El valor de la consulta de ${medico.nombre} fue actualizado correctamente.`;
-}
  
 }

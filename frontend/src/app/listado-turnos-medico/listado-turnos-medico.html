@@ -12,14 +12,12 @@
     <input
       id="fecha"
       type="date"
-      [(ngModel)]="fechaSeleccionada"
+      [ngModel]="fechaSeleccionada"
+      (ngModelChange)="fechaSeleccionada = $event; cargar()"
     />
 
     @if (fechaSeleccionada) {
-      <button
-        type="button"
-        (click)="fechaSeleccionada = ''"
-      >
+      <button type="button" (click)="verTodas()">
         Ver todas las fechas
       </button>
     }
@@ -32,42 +30,38 @@
       <p>{{ mensaje }}</p>
     }
 
-    @if (turnosFiltrados.length === 0) {
-      <p>No hay turnos para la fecha seleccionada.</p>
+    @if (turnos.length === 0) {
+      <p>No hay turnos disponibles para la fecha seleccionada.</p>
     } @else {
-      @for (turno of turnosFiltrados; track turno.id) {
+      @for (turno of turnos; track turno.id) {
         <article class="turno">
           <div class="datos-turno">
-            <span class="hora">{{ turno.hora }}</span>
+            <span class="hora">
+              {{ turno.fecha_hora | date: 'dd/MM/yyyy HH:mm' }}
+            </span>
 
             <div>
               <strong>{{ turno.paciente }}</strong>
 
-              @if (turno.estado === 'Reservado') {
+              @if (turno.estado === 'ACTIVO') {
                 <span class="estado">Reservado</span>
-              } @else if (turno.estado === 'Atendido') {
+              } @else if (turno.estado === 'ATENDIDO') {
                 <span class="estado atendido">Atendido</span>
-              } @else {
+              } @else if (turno.estado === 'AUSENTE') {
                 <span class="estado ausente">Ausente</span>
+              } @else {
+                <span class="estado ausente">Cancelado</span>
               }
             </div>
           </div>
 
-          @if (turno.estado === 'Reservado') {
+          @if (turno.estado === 'ACTIVO') {
             <div class="acciones">
-              <button
-                type="button"
-                class="btn-atendido"
-                (click)="marcarAtendido(turno)"
-              >
+              <button type="button" class="btn-atendido" (click)="marcarAtendido(turno)">
                 Atendido
               </button>
 
-              <button
-                type="button"
-                class="btn-ausente"
-                (click)="marcarAusente(turno)"
-              >
+              <button type="button" class="btn-ausente" (click)="marcarAusente(turno)">
                 Ausente
               </button>
             </div>
