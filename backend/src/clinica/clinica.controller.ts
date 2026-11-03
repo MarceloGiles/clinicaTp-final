@@ -17,7 +17,9 @@ import {
   CancelarReservaDto,
   ModificarValorDto,
 } from './dto/acciones.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Clinica')
 @Controller('clinica')
 export class ClinicaController {
   constructor(private readonly clinicaService: ClinicaService) {}
