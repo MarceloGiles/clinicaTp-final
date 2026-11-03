@@ -14,11 +14,11 @@ import { CrearReservaDto } from './dto/crear-reserva.dto';
 import { ListarReservasDto } from './dto/listar-reservas.dto';
 import { LoginDto } from './dto/login.dto';
 
-import { MedicoRespuestaDto, ReservaRespuestaDto } from './dto/respuestas.dto';
+import { MedicoRespuestaDto, ReservaRespuestaDto, PacienteRespuestaDto } from './dto/respuestas.dto';
 import {
   CambiarEstadoDto,
   CancelarReservaDto,
-  ModificarValorDto,
+  ModificarValorDto
 } from './dto/acciones.dto';
 import { EstadoReserva, EstadoUsuario, RolUsuario } from './enums';
 
@@ -143,6 +143,17 @@ export class ClinicaService {
       matricula: medico.matricula,
       valor_consulta: medico.valor_consulta,
     }));
+  }
+
+  async listarPacientes(): Promise<PacienteRespuestaDto[]>{
+    const pacientes = await this.usuarioRepository.find({
+      where: { rol: RolUsuario.PACIENTE, estado: EstadoUsuario.ACTIVO}
+    })
+
+    return pacientes.map((paciente) => ({
+      id: paciente.id,
+      nombre: `${paciente.apellidos}, ${paciente.nombres}`
+    }))
   }
 
   async listarReservas(

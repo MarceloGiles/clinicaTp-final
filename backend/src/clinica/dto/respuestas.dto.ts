@@ -13,3 +13,8 @@ export class MedicoRespuestaDto {
   matricula: number;
   valor_consulta: number;
 }
+
+export class PacienteRespuestaDto {
+  id: number;
+  nombre: string;
+}
