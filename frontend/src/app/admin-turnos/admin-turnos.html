@@ -10,14 +10,12 @@
     <input
       id="fecha"
       type="date"
-      [(ngModel)]="fechaSeleccionada"
+      [ngModel]="fechaSeleccionada"
+      (ngModelChange)="fechaSeleccionada = $event; cargar()"
     />
 
     @if (fechaSeleccionada) {
-      <button
-        type="button"
-        (click)="fechaSeleccionada = ''"
-      >
+      <button type="button" (click)="mostrarTodos()">
         Mostrar todos
       </button>
     }
@@ -26,23 +24,23 @@
   <div class="turnos">
     <h2>Turnos</h2>
 
-    @if (turnosFiltrados.length === 0) {
+    @if (turnos.length === 0) {
       <p class="sin-turnos">
         No hay turnos registrados para la fecha seleccionada.
       </p>
     }
 
-    @for (turno of turnosFiltrados; track turno.id) {
+    @for (turno of turnos; track turno.id) {
       <article class="turno">
         <div class="datos-turno">
           <div>
             <strong>Fecha</strong>
-            <span>{{ turno.fecha }}</span>
+            <span>{{ turno.fecha_hora | date: 'dd/MM/yyyy' }}</span>
           </div>
 
           <div>
             <strong>Hora</strong>
-            <span>{{ turno.hora }}</span>
+            <span>{{ turno.fecha_hora | date: 'HH:mm' }}</span>
           </div>
 
           <div>
@@ -57,29 +55,21 @@
 
           <div>
             <strong>Estado</strong>
-            <span
-              class="estado"
-              [class.cancelado]="turno.estado === 'Cancelado'"
-            >
+            <span class="estado" [class.cancelado]="turno.estado === 'CANCELADO'">
               {{ turno.estado }}
             </span>
           </div>
         </div>
 
         <div class="acciones">
-          @if (turno.estado === 'Reservado') {
-            <button
-              type="button"
-              (click)="cancelarTurno(turno)"
-            >
+          @if (turno.estado === 'ACTIVO') {
+            <button type="button" (click)="cancelarTurno(turno)">
               Cancelar turno
             </button>
           }
 
-          @if (turno.estado === 'Cancelado') {
-            <span class="turno-cancelado">
-              Cancelado
-            </span>
+          @if (turno.estado === 'CANCELADO') {
+            <span class="turno-cancelado">Cancelado</span>
           }
         </div>
       </article>

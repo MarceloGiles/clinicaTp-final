@@ -25,12 +25,6 @@ export const routes: Routes = [
         .then(m => m.ListadoTurnosMedico),
   },
   {
-    path: 'cancelar-turno',
-    loadComponent: () =>
-      import('./cancelar-turno-paciente/cancelar-turno-paciente')
-        .then(m => m.CancelarTurnoPaciente),
-  },
-  {
     path: 'admin-turnos',
     loadComponent: () =>
       import('./admin-turnos/admin-turnos')
