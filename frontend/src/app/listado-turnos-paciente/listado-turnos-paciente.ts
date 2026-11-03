@@ -1,62 +1,66 @@
-import { Component } from '@angular/core';
-
-interface Turno {
-  fecha: string;
-  hora: string;
-  medico: string;
-  estado: 'Confirmado' | 'Pendiente' | 'Cancelado';
-  puedeCancelar: boolean;
-}
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Clinica, Reserva } from '../servicios/clinica';
 
 @Component({
   selector: 'app-listado-turnos-paciente',
   standalone: true,
+  imports: [DatePipe],
   templateUrl: './listado-turnos-paciente.html',
   styleUrl: './listado-turnos-paciente.scss',
 })
-export class ListadoTurnosPaciente {
+
+export class ListadoTurnosPaciente implements OnInit {
   mensaje = '';
 
-  turnos: Turno[] = [
-    {
-      fecha: '29/10/2026',
-      hora: '09:00',
-      medico: 'Dr. García',
-      estado: 'Confirmado',
-      puedeCancelar: true,
-    },
-    {
-      fecha: '30/10/2026',
-      hora: '10:30',
-      medico: 'Dra. López',
-      estado: 'Pendiente',
-      puedeCancelar: true,
-    },
-    {
-      fecha: '07/10/2026',
-      hora: '16:00',
-      medico: 'Dr. Martínez',
-      estado: 'Confirmado',
-      puedeCancelar: false,
-    },
-  ];
+  turnos: Reserva[] = []
 
-cancelarTurno(turno: Turno): void {
-  if (!turno.puedeCancelar || turno.estado === 'Cancelado') {
-    return;
+constructor(private clinica: Clinica, private cdr: ChangeDetectorRef) {}
+
+ngOnInit(): void {
+  this.cargar()
+}
+
+// busca las reservas del paciente que este logueado en el momento 
+// cdr va a detectar el cambio y va a hacer que angular se actualice 
+
+cargar(): void {
+  const usuario = this.clinica.usuarioActual()
+
+  if(!usuario) return;
+
+  this.clinica.listarReservas({ id_paciente: usuario.id }).subscribe({
+      next: (reservas) => {
+        this.turnos = reservas;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.mensaje = 'No se pudieron cargar los turnos.';
+        this.cdr.markForCheck();
+      },
+    });
+}
+
+cancelarTurno(turno: Reserva): void {
+    this.clinica.cancelarReserva(turno.id, 'PACIENTE').subscribe({
+      next: () => {
+        this.mensaje = 'El turno fue cancelado.';
+        this.cargar();
+      },
+      error: (err) => {
+        this.mensaje = err.error?.message ?? 'No se pudo cancelar el turno.';
+        this.cdr.markForCheck();
+      },
+    });
   }
 
-  this.turnos = this.turnos.map((t) =>
-    t.fecha === turno.fecha && t.hora === turno.hora
-      ? {
-          ...t,
-          estado: 'Cancelado',
-          puedeCancelar: false,
-        }
-      : t
-  );
-  
-  this.mensaje =
-    `El turno del ${turno.fecha} a las ${turno.hora} fue cancelado.`;
+  puedeCancelar(turno: Reserva): boolean {
+    if (turno.estado !== 'ACTIVO') return false;
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const dia = new Date(turno.fecha_hora);
+    dia.setHours(0, 0, 0, 0);
+    return dia > hoy;
   }
+
 }

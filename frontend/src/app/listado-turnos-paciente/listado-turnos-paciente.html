@@ -25,36 +25,30 @@
         </thead>
 
         <tbody>
-          @for (turno of turnos; track turno.fecha + turno.hora) {
+          @for (turno of turnos; track turno.id) {
             <tr>
-              <td>{{ turno.fecha }}</td>
-              <td>{{ turno.hora }}</td>
+              <td>{{ turno.fecha_hora | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ turno.fecha_hora | date: 'HH:mm' }}</td>
               <td>{{ turno.medico }}</td>
 
               <td>
                 <span
                   class="estado"
-                  [class.confirmado]="turno.estado === 'Confirmado'"
-                  [class.pendiente]="turno.estado === 'Pendiente'"
-                  [class.cancelado]="turno.estado === 'Cancelado'"
+                  [class.confirmado]="turno.estado === 'ACTIVO'"
+                  [class.pendiente]="turno.estado === 'ATENDIDO' || turno.estado === 'AUSENTE'"
+                  [class.cancelado]="turno.estado === 'CANCELADO'"
                 >
                   {{ turno.estado }}
                 </span>
               </td>
 
               <td>
-                @if (turno.puedeCancelar && turno.estado !== 'Cancelado') {
-                  <button
-                    type="button"
-                    class="btn-cancelar"
-                    (click)="cancelarTurno(turno)"
-                  >
+                @if (puedeCancelar(turno)) {
+                  <button type="button" class="btn-cancelar" (click)="cancelarTurno(turno)">
                     Cancelar
                   </button>
                 } @else {
-                  <span class="no-disponible">
-                    No disponible
-                  </span>
+                  <span class="no-disponible">No disponible</span>
                 }
               </td>
             </tr>
