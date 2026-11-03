@@ -15,6 +15,11 @@ import { ListarReservasDto } from './dto/listar-reservas.dto';
 import { LoginDto } from './dto/login.dto';
 
 import { MedicoRespuestaDto, ReservaRespuestaDto } from './dto/respuestas.dto';
+import {
+  CambiarEstadoDto,
+  CancelarReservaDto,
+  ModificarValorDto,
+} from './dto/acciones.dto';
 import { EstadoReserva, EstadoUsuario, RolUsuario } from './enums';
 
 import { Medico } from './medico.entity';
@@ -166,6 +171,80 @@ export class ClinicaService {
     });
 
     return reservas.map((reserva) => this.aRespuesta(reserva));
+  }
+
+  async cancelarReserva(
+    id: number,
+    dato: CancelarReservaDto,
+  ): Promise<ReservaRespuestaDto> {
+    const reserva = await this.reservaRepository.findOne({ where: { id } });
+
+    if (!reserva) {
+      throw new NotFoundException('La reserva no existe.');
+    }
+
+    if (reserva.estado !== EstadoReserva.ACTIVO) {
+      throw new ConflictException('Solo se pueden cancelar las reservas activas.');
+    }
+
+    const ahora = new Date();
+
+    if (dato.rol === RolUsuario.PACIENTE) {
+      const inicioDelDia = new Date(reserva.fecha_hora);
+      inicioDelDia.setHours(0, 0, 0, 0);
+
+      if (ahora >= inicioDelDia) {
+        throw new BadRequestException(
+          'El paciente puede cancelar hasta 24hs previas a la consulta.',
+        );
+      }
+    } else if (ahora >= reserva.fecha_hora) {
+      throw new BadRequestException(
+        'El administrador puede cancelar hasta que inicia la consulta.',
+      );
+    }
+
+    reserva.estado = EstadoReserva.CANCELADO;
+    return this.aRespuesta(await this.reservaRepository.save(reserva));
+  }
+
+  async cambiarEstado(
+    id: number,
+    dato: CambiarEstadoDto,
+  ): Promise<ReservaRespuestaDto> {
+    const reserva = await this.reservaRepository.findOne({ where: { id } });
+
+    if (!reserva) {
+      throw new NotFoundException('La reserva no existe.');
+    }
+
+    if (reserva.estado !== EstadoReserva.ACTIVO) {
+      throw new ConflictException('Solo se puede marcar una reserva activa.');
+    }
+
+    reserva.estado = dato.estado;
+    return this.aRespuesta(await this.reservaRepository.save(reserva));
+  }
+
+  async modificarValorConsulta(
+    id: number,
+    dato: ModificarValorDto,
+  ): Promise<MedicoRespuestaDto> {
+    const medico = await this.medicoRepository.findOne({ where: { id } });
+
+    if (!medico) {
+      throw new NotFoundException('El médico no existe.');
+    }
+
+    medico.valor_consulta = dato.valor_consulta;
+    await this.medicoRepository.save(medico);
+
+    return {
+      id: medico.id,
+      nombre: `${medico.usuario.apellidos}, ${medico.usuario.nombres}`,
+      matricula: medico.matricula,
+      valor_consulta: medico.valor_consulta,
+    };
   }
 
   private aRespuesta(reserva: Reserva): ReservaRespuestaDto {
