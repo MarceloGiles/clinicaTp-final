@@ -60,6 +60,11 @@ export class ClinicaController {
     return this.clinicaService.cancelarReserva(id, dato);
   }
 
+  @Get('pacientes')
+  listarPacientes(){
+    return this.clinicaService.listarPacientes()
+  }
+
   @Get('medicos')
   listarMedicos() {
     return this.clinicaService.listarMedicos();

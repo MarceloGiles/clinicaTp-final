@@ -19,6 +19,11 @@ export interface Medico {
     valor_consulta: number;
 }
 
+export interface Paciente {
+  id: number;
+  nombre: string;
+}
+
 export interface Reserva {
     id: number;
     fecha_hora: string;
@@ -54,6 +59,10 @@ export class Clinica {
 
   listarMedicos(): Observable<Medico[]>{
     return this.http.get<Medico[]>(`${this.api}/medicos`)
+  }
+
+  listarPacientes(): Observable<Paciente[]> {
+    return this.http.get<Paciente[]>(`${this.api}/pacientes`)
   }
 
   listarReservas(filtros: { id_paciente?: number; id_medico?: number; fecha?: string } = {}): Observable<Reserva[]> {

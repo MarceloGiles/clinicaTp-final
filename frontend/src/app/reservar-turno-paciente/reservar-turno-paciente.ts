@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Clinica, Medico } from '../servicios/clinica';
+import { Clinica, Medico, Paciente } from '../servicios/clinica';
 
 interface Horario {
   hora: string;
@@ -16,13 +16,16 @@ interface Horario {
 })
 export class ReservarTurnoPaciente implements OnInit {
   medicos: Medico[] = [];
+  pacientes: Paciente[] = [];
   horarios: Horario[] = [];
 
   // horario de atencion fijo - puede ser mejorado
   private horas = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'];
+  esAdmin = false
 
   fechaSeleccionada = '';
   medicoSeleccionado = '';
+  pacienteSeleccionado = '';
   horarioSeleccionado = '';
 
   mensaje = '';
@@ -31,6 +34,7 @@ export class ReservarTurnoPaciente implements OnInit {
 
   ngOnInit(): void {
     this.armarHorarios([]);
+    this.esAdmin = this.clinica.usuarioActual()?.rol === 'ADMINISTRADOR';
 
     this.clinica.listarMedicos().subscribe({
       next: (medicos) => {
@@ -42,6 +46,15 @@ export class ReservarTurnoPaciente implements OnInit {
         this.cdr.markForCheck();
       },
     });
+
+    if(this.esAdmin){
+      this.clinica.listarPacientes().subscribe({
+        next: (pacientes) => {
+          this.pacientes = pacientes;
+          this.cdr.markForCheck();
+        }
+      })
+    }
   }
 
   get fechaMinima(): string {
@@ -107,10 +120,19 @@ export class ReservarTurnoPaciente implements OnInit {
       return;
     }
 
+    let idPaciente = usuario.id;
+    if(this.esAdmin){
+      if(!this.pacienteSeleccionado){
+        this.mensaje = 'Selecciona el paciente'
+        return ;
+      }
+      idPaciente = Number(this.pacienteSeleccionado)
+    }
+
     this.clinica
       .crearReservas({
         id_medico: Number(this.medicoSeleccionado),
-        id_paciente: usuario.id,
+        id_paciente: idPaciente,
         fecha_hora: `${this.fechaSeleccionada}T${this.horarioSeleccionado}:00`,
       })
       .subscribe({
