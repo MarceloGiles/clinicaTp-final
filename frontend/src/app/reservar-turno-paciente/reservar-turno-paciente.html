@@ -12,7 +12,8 @@
       <input
         id="fecha"
         type="date"
-        [(ngModel)]="fechaSeleccionada"
+        [ngModel]="fechaSeleccionada"
+        (ngModelChange)="fechaSeleccionada = $event; actualizarHorarios()"
         [min]="fechaMinima"
         [max]="fechaMaxima"
       />
@@ -27,7 +28,8 @@
 
       <select
         id="medico"
-        [(ngModel)]="medicoSeleccionado"
+        [ngModel]="medicoSeleccionado"
+        (ngModelChange)="medicoSeleccionado = $event; actualizarHorarios()"
       >
         <option value="">Seleccionar médico</option>
 

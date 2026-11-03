@@ -54,6 +54,7 @@ cancelarTurno(turno: Reserva): void {
     });
   }
 
+// funcionalidad extra para que si no puede cancelarlo no aparezca la opcion
   puedeCancelar(turno: Reserva): boolean {
     if (turno.estado !== 'ACTIVO') return false;
     const hoy = new Date();
