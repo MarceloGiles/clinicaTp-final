@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 
 export interface UsuarioLogueado {
@@ -43,6 +43,13 @@ export class Clinica {
     } catch {
       return null;
     }
+  }
+
+  medicoActual(): Observable<Medico | undefined> {
+    const u = this.usuarioActual();
+    return this.listarMedicos().pipe(
+      map((medicos) => medicos.find((m) => m.nombre === `${u?.apellidos}, ${u?.nombres}`)),
+    );
   }
 
   listarMedicos(): Observable<Medico[]>{
