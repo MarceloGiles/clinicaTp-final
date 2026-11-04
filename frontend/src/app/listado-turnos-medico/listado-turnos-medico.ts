@@ -1,13 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Clinica, Reserva } from '../servicios/clinica'
 
 @Component({
   selector: 'app-listado-turnos-medico',
   standalone: true,
-  imports: [FormsModule, DatePipe, RouterLink],
+  imports: [FormsModule, DatePipe],
   templateUrl: './listado-turnos-medico.html',
   styleUrl: './listado-turnos-medico.scss',
 })
