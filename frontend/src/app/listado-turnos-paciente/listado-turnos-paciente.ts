@@ -1,11 +1,12 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Clinica, Reserva } from '../servicios/clinica';
 
 @Component({
   selector: 'app-listado-turnos-paciente',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './listado-turnos-paciente.html',
   styleUrl: './listado-turnos-paciente.scss',
 })

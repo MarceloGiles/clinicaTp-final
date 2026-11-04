@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Clinica, Medico, Paciente } from '../servicios/clinica';
 
 interface Horario {
@@ -30,7 +31,7 @@ export class ReservarTurnoPaciente implements OnInit {
 
   mensaje = '';
 
-  constructor(private clinica: Clinica, private cdr: ChangeDetectorRef) {}
+  constructor(private clinica: Clinica, private cdr: ChangeDetectorRef, private router: Router,) {}
 
   ngOnInit(): void {
     this.armarHorarios([]);
@@ -137,9 +138,7 @@ export class ReservarTurnoPaciente implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.actualizarHorarios();
-          this.mensaje = 'Turno reservado.';
-          this.cdr.markForCheck();
+          this.router.navigate([this.esAdmin ? '/admin-turnos' : '/mis-turnos']);
         },
         error: (err) => {
           this.mensaje = err.error?.message ?? 'No se pudo reservar el turno.';
