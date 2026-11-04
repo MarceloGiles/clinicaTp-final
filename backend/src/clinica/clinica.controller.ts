@@ -1,23 +1,25 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  ParseIntPipe,
-  Patch,
   Post,
+  Query,
+  Param,
+  Patch,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ClinicaService } from './clinica.service';
-import type {
-  CreateMedicoDto,
-  CreatePacienteDto,
-  CreateTurnoDto,
-  UpdateMedicoDto,
-  UpdatePacienteDto,
-  UpdateTurnoDto,
-} from './clinica.service';
+import { LoginDto } from './dto/login.dto';
+import { CrearReservaDto } from './dto/crear-reserva.dto';
+import { ListarReservasDto } from './dto/listar-reservas.dto';
+import {
+  CambiarEstadoDto,
+  CancelarReservaDto,
+  ModificarValorDto,
+} from './dto/acciones.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Clínica')
 @Controller('clinica')
 export class ClinicaController {
   constructor(private readonly clinicaService: ClinicaService) {}
@@ -27,87 +29,52 @@ export class ClinicaController {
     return this.clinicaService.getStatus();
   }
 
-  @Get('pacientes')
-  getPacientes() {
-    return this.clinicaService.getPacientes();
+  @Post('login')
+  login(@Body() dato: LoginDto) {
+    return this.clinicaService.login(dato);
   }
 
-  @Get('pacientes/:id')
-  getPaciente(@Param('id', ParseIntPipe) id: number) {
-    return this.clinicaService.getPaciente(id);
+  @Post('reservas')
+  crearReserva(@Body() dato: CrearReservaDto) {
+    return this.clinicaService.crearReserva(dato);
   }
 
-  @Post('pacientes')
-  createPaciente(@Body() data: CreatePacienteDto) {
-    return this.clinicaService.createPaciente(data);
+  @Get('reservas')
+  listarReservas(@Query() filtros: ListarReservasDto) {
+    return this.clinicaService.listarReservas(filtros);
   }
 
-  @Patch('pacientes/:id')
-  updatePaciente(
+  @Patch('reservas/:id/estado')
+  cambiarEstado(
     @Param('id', ParseIntPipe) id: number,
-    @Body() data: UpdatePacienteDto,
+    @Body() dato: CambiarEstadoDto,
   ) {
-    return this.clinicaService.updatePaciente(id, data);
+    return this.clinicaService.cambiarEstado(id, dato);
   }
 
-  @Delete('pacientes/:id')
-  deletePaciente(@Param('id', ParseIntPipe) id: number) {
-    return this.clinicaService.deletePaciente(id);
+  @Patch('reservas/:id/cancelar')
+  cancelarReserva(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dato: CancelarReservaDto,
+  ) {
+    return this.clinicaService.cancelarReserva(id, dato);
+  }
+
+  @Get('pacientes')
+  listarPacientes(){
+    return this.clinicaService.listarPacientes()
   }
 
   @Get('medicos')
-  getMedicos() {
-    return this.clinicaService.getMedicos();
+  listarMedicos() {
+    return this.clinicaService.listarMedicos();
   }
 
-  @Get('medicos/:id')
-  getMedico(@Param('id', ParseIntPipe) id: number) {
-    return this.clinicaService.getMedico(id);
-  }
-
-  @Post('medicos')
-  createMedico(@Body() data: CreateMedicoDto) {
-    return this.clinicaService.createMedico(data);
-  }
-
-  @Patch('medicos/:id')
-  updateMedico(
+  @Patch('medicos/:id/valor')
+  modificarValor(
     @Param('id', ParseIntPipe) id: number,
-    @Body() data: UpdateMedicoDto,
+    @Body() dato: ModificarValorDto,
   ) {
-    return this.clinicaService.updateMedico(id, data);
-  }
-
-  @Delete('medicos/:id')
-  deleteMedico(@Param('id', ParseIntPipe) id: number) {
-    return this.clinicaService.deleteMedico(id);
-  }
-
-  @Get('turnos')
-  getTurnos() {
-    return this.clinicaService.getTurnos();
-  }
-
-  @Get('turnos/:id')
-  getTurno(@Param('id', ParseIntPipe) id: number) {
-    return this.clinicaService.getTurno(id);
-  }
-
-  @Post('turnos')
-  createTurno(@Body() data: CreateTurnoDto) {
-    return this.clinicaService.createTurno(data);
-  }
-
-  @Patch('turnos/:id')
-  updateTurno(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() data: UpdateTurnoDto,
-  ) {
-    return this.clinicaService.updateTurno(id, data);
-  }
-
-  @Delete('turnos/:id')
-  deleteTurno(@Param('id', ParseIntPipe) id: number) {
-    return this.clinicaService.deleteTurno(id);
+    return this.clinicaService.modificarValorConsulta(id, dato);
   }
 }

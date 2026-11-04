@@ -2,17 +2,32 @@
   <div class="encabezado">
     <h1>Reservar turno</h1>
     <p>Seleccioná una fecha, un médico y un horario disponible.</p>
-  </div>
+  </div>  
 
   <div class="formulario">
 
+    @if (esAdmin) {
+      <div class="campo">
+        <label for="paciente">Paciente</label>
+
+        <select id="paciente" [(ngModel)]="pacienteSeleccionado">
+          <option value="">Seleccionar paciente</option>
+
+          @for (paciente of pacientes; track paciente.id) {
+            <option [value]="paciente.id">{{ paciente.nombre }}</option>
+          }
+        </select>
+      </div>
+    }
+    
     <div class="campo">
       <label for="fecha">Fecha</label>
 
       <input
         id="fecha"
         type="date"
-        [(ngModel)]="fechaSeleccionada"
+        [ngModel]="fechaSeleccionada"
+        (ngModelChange)="fechaSeleccionada = $event; actualizarHorarios()"
         [min]="fechaMinima"
         [max]="fechaMaxima"
       />
@@ -27,7 +42,8 @@
 
       <select
         id="medico"
-        [(ngModel)]="medicoSeleccionado"
+        [ngModel]="medicoSeleccionado"
+        (ngModelChange)="medicoSeleccionado = $event; actualizarHorarios()"
       >
         <option value="">Seleccionar médico</option>
 

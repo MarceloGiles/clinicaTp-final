@@ -1,78 +1,56 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface Turno {
-  id: number;
-  fecha: string;
-  hora: string;
-  paciente: string;
-  medico: string;
-  estado: 'Reservado' | 'Cancelado';
-}
+import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { Clinica, Reserva } from '../servicios/clinica';
 
 @Component({
   selector: 'app-admin-turnos',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DatePipe, RouterLink],
   templateUrl: './admin-turnos.html',
   styleUrl: './admin-turnos.scss',
 })
-export class AdminTurnos {
+export class AdminTurnos implements OnInit {
   fechaSeleccionada = '';
-
-  turnos: Turno[] = [
-    {
-      id: 1,
-      fecha: '2026-10-05',
-      hora: '08:00',
-      paciente: 'Ana Martínez',
-      medico: 'Dr. Juan Pérez',
-      estado: 'Reservado',
-    },
-    {
-      id: 2,
-      fecha: '2026-10-05',
-      hora: '09:00',
-      paciente: 'Pedro Gómez',
-      medico: 'Dra. María González',
-      estado: 'Reservado',
-    },
-    {
-      id: 3,
-      fecha: '2026-10-06',
-      hora: '10:00',
-      paciente: 'Laura Fernández',
-      medico: 'Dr. Carlos López',
-      estado: 'Reservado',
-    },
-    {
-      id: 4,
-      fecha: '2026-10-06',
-      hora: '11:00',
-      paciente: 'Juan Rodríguez',
-      medico: 'Dr. Juan Pérez',
-      estado: 'Cancelado',
-    },
-  ];
-
   mensaje = '';
+  turnos: Reserva[] = [];
 
-  get turnosFiltrados(): Turno[] {
-    if (!this.fechaSeleccionada) {
-      return this.turnos;
-    }
+  constructor(private clinica: Clinica, private cdr: ChangeDetectorRef) {}
 
-    return this.turnos.filter(
-      turno => turno.fecha === this.fechaSeleccionada
-    );
+  ngOnInit(): void {
+    this.cargar();
   }
 
-  cancelarTurno(turno: Turno): void {
-    if (turno.estado !== 'Reservado') {
-      return;
-    }
+  // trae todas las reservas; si hay fecha elegida, solo las de ese día
+  cargar(): void {
+    this.clinica.listarReservas({ fecha: this.fechaSeleccionada || undefined }).subscribe({
+      next: (reservas) => {
+        this.turnos = reservas;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.mensaje = 'No se pudieron cargar los turnos.';
+        this.cdr.markForCheck();
+      },
+    });
+  }
 
-    turno.estado = 'Cancelado';
-    this.mensaje = `El turno del ${turno.fecha} a las ${turno.hora} fue cancelado.`;
+  mostrarTodos(): void {
+    this.fechaSeleccionada = '';
+    this.cargar();
+  }
+
+  cancelarTurno(turno: Reserva): void {
+    this.clinica.cancelarReserva(turno.id, 'ADMINISTRADOR').subscribe({
+      next: () => {
+        this.mensaje = 'El turno fue cancelado.';
+        this.cargar();
+      },
+      error: (err) => {
+        this.mensaje = err.error?.message ?? 'No se pudo cancelar el turno.';
+        this.cdr.markForCheck();
+      },
+    });
   }
 }
