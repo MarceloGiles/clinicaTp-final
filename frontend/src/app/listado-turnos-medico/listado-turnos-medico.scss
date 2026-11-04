@@ -1,58 +1,54 @@
 .listado-turnos {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 30px;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(207, 225, 229, 0.8);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(32, 52, 58, 0.06);
 }
 
-.encabezado {
-  margin-bottom: 30px;
-
-  h1 {
-    margin-bottom: 8px;
-  }
-
-  p {
-    margin: 0;
-  }
-}
+.encabezado { margin-bottom: 26px; }
 
 .filtro-fecha {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: flex-end;
+  gap: 12px;
   margin-bottom: 30px;
-
-  label {
-    font-weight: 600;
-  }
-
-  input {
-    width: 100%;
-    max-width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
 }
 
-.turnos {
-  h2 {
-    margin-bottom: 15px;
-  }
+.filtro-fecha label { display: grid; gap: 7px; }
+.filtro-fecha input { width: 220px; }
+
+.filtro-fecha button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #cfe1e5;
+  background: #fff;
+  color: #31535a;
+  font-weight: 600;
+  cursor: pointer;
 }
+
+.filtro-fecha button:hover {
+  border-color: #63c9d6;
+  background: #eaf7fb;
+}
+
+.turnos h2 { margin-bottom: 15px; }
 
 .turno {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 18px;
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  border: 1px solid #e0ecef;
+  border-radius: 12px;
+  background: #fff;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
+
+.turno:hover { border-color: #bfeaf2; box-shadow: 0 6px 18px rgba(32, 52, 58, 0.05); }
 
 .datos-turno {
   display: flex;
@@ -61,9 +57,10 @@
 }
 
 .hora {
-  min-width: 60px;
+  min-width: 118px;
+  color: #1e7f8c;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .datos-turno > div {
@@ -72,54 +69,20 @@
   gap: 6px;
 }
 
-.estado {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.estado.atendido {
-  font-weight: 700;
-}
-
-.estado.ausente {
-  font-weight: 700;
-}
-
 .acciones {
   display: flex;
   gap: 8px;
 }
 
-.acciones button {
-  padding: 9px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-atendido:hover,
-.btn-ausente:hover {
-  border-color: #333;
-}
+.acciones .btn-ausente { border-color: #d7e3e6; background: #fff; color: #526a70; }
+.acciones .btn-ausente:hover { border-color: #b5c9ce; background: #f4f8f9; }
 
 @media (max-width: 600px) {
-  .listado-turnos {
-    margin: 20px;
-    padding: 20px;
-  }
-
-  .turno {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .acciones {
-    width: 100%;
-  }
-
-  .acciones button {
-    flex: 1;
-  }
+  .listado-turnos { padding: 20px; }
+  .filtro-fecha { align-items: flex-start; flex-direction: column; }
+  .filtro-fecha input { width: 100%; }
+  .turno { align-items: flex-start; flex-direction: column; }
+  .datos-turno { flex-wrap: wrap; gap: 12px; }
+  .acciones { width: 100%; }
+  .acciones button { flex: 1; }
 }

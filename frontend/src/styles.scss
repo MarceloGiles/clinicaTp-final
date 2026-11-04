@@ -1,1 +1,204 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  --color-fondo: #eaf7fb;
+  --color-suave: #bfeaf2;
+  --color-acento: #63c9d6;
+  --color-principal: #1e7f8c;
+  --color-texto: #20343a;
+  --color-muted: #698087;
+  --color-borde: #dcebef;
+  --color-blanco: #fff;
+  --sombra-tarjeta: 0 12px 34px rgba(32, 52, 58, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--color-fondo);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-texto);
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-texto);
+  font-family: Manrope, 'DM Sans', sans-serif;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: clamp(26px, 4vw, 34px);
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--color-muted);
+  line-height: 1.65;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(99, 201, 214, 0.45);
+  outline-offset: 2px;
+}
+
+app-login,
+app-listado-turnos-paciente,
+app-listado-turnos-medico,
+app-admin-turnos,
+app-reservar-turno-paciente,
+app-valor-consulta-medico {
+  display: block;
+}
+
+.encabezado {
+  margin-bottom: 30px;
+}
+
+.encabezado h1 {
+  margin-bottom: 8px;
+}
+
+.encabezado p {
+  margin: 0;
+}
+
+.campo label,
+.filtro-fecha label {
+  color: #34545a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.campo input,
+.campo select,
+.filtro-fecha input {
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #cfe1e5;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-texto);
+}
+
+.campo input::placeholder {
+  color: #96a9ad;
+}
+
+.campo input:focus,
+.campo select:focus,
+.filtro-fecha input:focus {
+  border-color: var(--color-principal);
+  outline: 3px solid rgba(99, 201, 214, 0.2);
+}
+
+button:not(.horario):not(.boton-volver):not(.boton-salir) {
+  border-radius: 9px;
+}
+
+.btn-reservar,
+.formulario > button,
+.login button,
+.btn-cancelar,
+.acciones button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid var(--color-principal);
+  background: var(--color-principal);
+  color: #fff;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.btn-reservar:hover,
+.formulario > button:hover,
+.login button:hover,
+.btn-cancelar:hover,
+.acciones button:hover {
+  border-color: #176875;
+  background: #176875;
+}
+
+.mensaje {
+  padding: 12px 15px;
+  border: 1px solid #bfeaf2;
+  border-radius: 10px;
+  background: #eaf7fb;
+  color: #1e6570;
+}
+
+.sin-turnos {
+  padding: 26px;
+  border: 1px dashed #b9d8de;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.65);
+  text-align: center;
+}
+
+.estado {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #eaf7fb;
+  color: #1e6570;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.estado.cancelado,
+.estado.ausente,
+.cancelado,
+.ausente {
+  background: #f3eded;
+  color: #765252;
+}
+
+.estado.atendido,
+.estado.confirmado {
+  background: #e4f4ee;
+  color: #276c54;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

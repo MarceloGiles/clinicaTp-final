@@ -1,20 +1,25 @@
 .admin-turnos {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 30px;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(207, 225, 229, 0.8);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(32, 52, 58, 0.06);
 }
 
-.encabezado {
-  margin-bottom: 30px;
-
-  h1 {
-    margin-bottom: 8px;
-  }
-
-  p {
-    margin: 0;
-  }
+.encabezado { margin-bottom: 26px; }
+.encabezado a {
+  display: inline-flex;
+  margin-top: 12px;
+  margin-right: 8px;
+  padding: 9px 12px;
+  border: 1px solid #cfe1e5;
+  border-radius: 9px;
+  color: #1e7f8c;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
 }
+.encabezado a:hover { background: #eaf7fb; }
 
 .filtro-fecha {
   display: flex;
@@ -22,56 +27,36 @@
   gap: 12px;
   margin-bottom: 30px;
 
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-weight: 600;
-  }
-
-  input {
-    width: 220px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-
+  label { display: flex; flex-direction: column; gap: 8px; }
+  input { width: 220px; }
   button {
-    padding: 10px 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background: white;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid #cfe1e5;
+    background: #fff;
+    color: #31535a;
     cursor: pointer;
-    font-size: 14px;
-
-    &:hover {
-      border-color: #333;
-    }
+    &:hover { border-color: #63c9d6; background: #eaf7fb; }
   }
 }
 
-.turnos {
-  h2 {
-    margin-bottom: 15px;
-  }
-}
+.turnos h2 { margin-bottom: 15px; }
 
 .turno {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 20px;
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  border: 1px solid #e0ecef;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .datos-turno {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 25px;
   flex: 1;
 
@@ -82,22 +67,8 @@
   }
 }
 
-.datos-turno strong {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.datos-turno span {
-  font-size: 15px;
-}
-
-.estado {
-  font-weight: 600;
-}
-
-.estado.cancelado {
-  font-weight: 700;
-}
+.datos-turno strong { color: #718589; font-size: 12px; font-weight: 650; }
+.datos-turno span { font-size: 14px; }
 
 .acciones {
   min-width: 130px;
@@ -105,34 +76,10 @@
   justify-content: flex-end;
 }
 
-.acciones button {
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.acciones button:hover {
-  border-color: #333;
-}
-
 .turno-cancelado {
+  color: #765252;
   font-size: 14px;
   font-weight: 600;
-}
-
-.sin-turnos {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.mensaje {
-  margin-top: 25px;
-  padding: 12px;
-  border-radius: 6px;
-  background: #f0f0f0;
 }
 
 @media (max-width: 900px) {
@@ -153,18 +100,11 @@
 }
 
 @media (max-width: 600px) {
-  .admin-turnos {
-    margin: 20px;
-    padding: 20px;
-  }
-
+  .admin-turnos { padding: 20px; }
   .filtro-fecha {
     align-items: flex-start;
     flex-direction: column;
-
-    input {
-      width: 100%;
-    }
+    input { width: 100%; }
   }
 
   .datos-turno {
