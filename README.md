@@ -1,173 +1,56 @@
-# Clínica TP - Backend API
+Sistema de turnos - Clínica
 
-Este repositorio contiene el backend de una aplicación de clínica desarrollado con NestJS + PostgreSQL + TypeORM.
+Trabajo Final Integrador de Desarrollo de Aplicaciones Web (2026).
+Sistema de turnos para una clínica, con tres roles: médico, paciente y administrador.
+Tecnologías: NestJS, TypeORM, PostgreSQL, Angular, nginx y PM2.
 
-## 🚀 Tecnologías
+COMO EJECUTARLO
 
-- Node.js
-- NestJS
-- TypeORM
-- PostgreSQL
-- TypeScript
+Requisitos: Node.js 22.22.3 o superior y PostgreSQL 16.
 
-## 📁 Estructura principal
+1. Crear la base de datos (como usuario postgres):
+   CREATE USER clinica_user WITH PASSWORD 'clinica123';
+   CREATE DATABASE clinica_db OWNER clinica_user;
 
-- `backend/` - backend de la aplicación
-- `frontend/` - frontend Angular
-- `INSTRUCCIONES_EQUIPO.txt` - guía rápida para el equipo
+2. Iniciar el backend:
+   cd backend
+   cp .env.example .env
+   npm install
+   npm run start:dev
 
-## 🛠️ Requisitos
+3. Cargar los usuarios de prueba (con el backend iniciado):
+   psql -h localhost -U clinica_user -d clinica_db -f backend/base.sql
 
-- PostgreSQL instalado localmente
-- Node.js y npm instalados
+4. Iniciar el frontend:
+   cd frontend
+   npm ci
+   npm start
+   Se abre en http://localhost:4200
 
-## 🗄️ Base de datos
+USUARIOS DE PRUEBA
 
-La base de datos usada por la API es:
+Se puede entrar con el documento o con el email.
 
-- Host: `localhost`
-- Puerto: `5432`
-- Usuario: `clinica_user`
-- Password: `clinica123`
-- Base: `clinica_db`
+Administrador: 41455078 (admin@clinica.com) - clave admin123
+Médico: 41455076 (medico@clinica.com) - clave medico123
+Paciente: 41455079 (paciente@gmail.com) - clave paciente123
 
-Archivo de configuración del backend:
+DOCUMENTACION
 
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=clinica_user
-DB_PASSWORD=clinica123
-DB_NAME=clinica_db
-PORT=3000
-```
+Swagger: con el backend iniciado, en http://localhost:3000/docs
+Compodoc: cd backend y npm run docs. Queda en backend/documentation/index.html
 
-## ▶️ Cómo arrancar el backend
+PM2 Y NGINX
 
-```bash
-cd backend
-npm install
-npm run start
-```
+1. Backend con PM2:
+   cd backend
+   npm run build
+   pm2 start ecosystem.config.js
 
-La API queda levantada en:
+2. Compilar el frontend:
+   cd frontend
+   npx ng build
 
-```text
-http://localhost:3000
-```
-
-Si el puerto 3000 está ocupado, liberar el proceso anterior:
-
-```bash
-lsof -nP -iTCP:3000 -sTCP:LISTEN
-kill -9 <PID>
-```
-
-Luego arrancar nuevamente:
-
-```bash
-npm run start
-```
-
-## 📌 Endpoints disponibles
-
-### Estado
-
-```http
-GET /clinica/status
-```
-
-### Pacientes
-
-```http
-GET /clinica/pacientes
-GET /clinica/pacientes/:id
-POST /clinica/pacientes
-PATCH /clinica/pacientes/:id
-DELETE /clinica/pacientes/:id
-```
-
-### Médicos
-
-```http
-GET /clinica/medicos
-GET /clinica/medicos/:id
-POST /clinica/medicos
-PATCH /clinica/medicos/:id
-DELETE /clinica/medicos/:id
-```
-
-### Turnos
-
-```http
-GET /clinica/turnos
-GET /clinica/turnos/:id
-POST /clinica/turnos
-PATCH /clinica/turnos/:id
-DELETE /clinica/turnos/:id
-```
-
-## 🧪 Ejemplos de uso
-
-### Crear paciente
-
-```bash
-curl -X POST http://localhost:3000/clinica/pacientes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Ana Lopez",
-    "dni": "12345678",
-    "email": "ana@test.com",
-    "telefono": "1122334455"
-  }'
-```
-
-### Ver pacientes
-
-```bash
-curl http://localhost:3000/clinica/pacientes
-```
-
-### Crear médico
-
-```bash
-curl -X POST http://localhost:3000/clinica/medicos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Dr. Gómez",
-    "especialidad": "Cardiología",
-    "matricula": "MN-2024"
-  }'
-```
-
-### Crear turno
-
-```bash
-curl -X POST http://localhost:3000/clinica/turnos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "fecha": "2026-09-30T10:30:00.000Z",
-    "motivo": "Consulta general",
-    "estado": "pendiente",
-    "paciente": 1,
-    "medico": 1
-  }'
-```
-
-## 📎 Notas para el equipo
-
-- La base de datos tiene `synchronize: true` para facilitar el desarrollo.
-- El backend ya contiene las entidades: `Paciente`, `Medico` y `Turno`.
-- La documentación rápida del equipo está en `INSTRUCCIONES_EQUIPO.txt`.
-- La API fue validada en localhost y responde correctamente en el puerto 3000.
-
-## 🔁 Git
-
-El repositorio está configurado para GitHub y el proyecto quedó subido al remoto principal.
-
-```bash
-git status
-git add .
-git commit -m "mensaje"
-git push origin main
-```
+3. nginx: copiar nginx/clinica.conf como conf/nginx.conf de nginx, cambiar la ruta
+   de root por la de frontend/dist/frontend/browser y arrancarlo.
+   La aplicación queda en http://localhost:8080
