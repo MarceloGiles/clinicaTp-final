@@ -1,1 +1,40 @@
-<router-outlet />
+<div class="portal">
+  @if (usuario && !isLogin) {
+    <header class="barra-superior">
+      <a class="marca" [routerLink]="inicioRol" aria-label="Grupo B Salud, ir al inicio">
+        <span class="marca-icono" aria-hidden="true">+</span>
+        <span>Grupo B Salud<span class="marca-secundaria"> · Portal de salud</span></span>
+      </a>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        @if (usuario.rol === 'PACIENTE') {
+          <a routerLink="/mis-turnos" routerLinkActive="activo">Mis turnos</a>
+          <a routerLink="/reservar-turno" routerLinkActive="activo">Reservar turno</a>
+        } @else if (usuario.rol === 'MEDICO') {
+          <a routerLink="/listado-turnos-medico" routerLinkActive="activo">Agenda</a>
+        } @else {
+          <a routerLink="/admin-turnos" routerLinkActive="activo">Turnos</a>
+          <a routerLink="/reservar-turno" routerLinkActive="activo">Reservar turno</a>
+          <a routerLink="/valor-consulta-medico" routerLinkActive="activo">Consultas</a>
+        }
+      </nav>
+
+      <div class="sesion">
+        <div class="identidad">
+          <span class="identidad-nombre">{{ nombreUsuario }}</span>
+          <span class="identidad-rol">{{ nombreRol }}</span>
+        </div>
+        <button class="boton-volver" type="button" (click)="volver()">
+          <span aria-hidden="true">←</span> Volver
+        </button>
+        <button class="boton-salir" type="button" (click)="cerrarSesion()">
+          Cerrar sesión
+        </button>
+      </div>
+    </header>
+  }
+
+  <main class="contenido">
+    <router-outlet />
+  </main>
+</div>

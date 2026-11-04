@@ -1,71 +1,67 @@
 .mis-turnos {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(207, 225, 229, 0.8);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(32, 52, 58, 0.06);
 }
 
 h1 {
   margin-bottom: 8px;
-  font-size: 32px;
 }
 
 .descripcion {
-  margin-bottom: 25px;
-  color: #666;
+  margin-bottom: 20px;
 }
+
+.mis-turnos > a {
+  display: inline-flex;
+  margin: 0 0 24px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  background: #1e7f8c;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.mis-turnos > a:hover { background: #176875; }
 
 .tabla-container {
   overflow-x: auto;
+  border: 1px solid #e0ecef;
+  border-radius: 12px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: #fff;
 }
 
 th,
 td {
-  padding: 14px 16px;
+  padding: 15px 17px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e8f0f2;
 }
 
 th {
-  font-weight: 600;
-}
-
-.estado {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 15px;
-  font-size: 14px;
-}
-
-.confirmado {
-  background: #dff3e4;
-  color: #237a3b;
-}
-
-.pendiente {
-  background: #fff1cc;
-  color: #8a6500;
-}
-
-.btn-cancelar {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+  background: #f5fafb;
+  color: #587176;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .no-disponible {
-  color: #888;
+  color: #87999d;
   font-size: 14px;
 }
 
-.sin-turnos {
-  padding: 20px;
-  text-align: center;
+@media (max-width: 600px) {
+  .mis-turnos { padding: 20px; }
+  th, td { padding: 12px; }
 }

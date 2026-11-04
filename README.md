@@ -46,6 +46,7 @@ PM2 Y NGINX
    cd backend
    npm run build
    pm2 start ecosystem.config.js
+   pm2 monitor
 
 2. Compilar el frontend:
    cd frontend

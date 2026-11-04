@@ -1,74 +1,52 @@
 .login {
-  max-width: 500px;
-  margin: 60px auto;
-  padding: 20px;
+  width: min(100%, 460px);
+  margin: clamp(20px, 6vh, 68px) auto;
+  padding: 0 16px;
 }
 
 .login-contenedor {
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: clamp(24px, 6vw, 42px);
+  border: 1px solid rgba(207, 225, 229, 0.8);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(32, 52, 58, 0.09);
 }
 
 .encabezado {
-  margin-bottom: 30px;
+  margin-bottom: 28px;
+
+  &::before {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 22px;
+    place-items: center;
+    border-radius: 14px;
+    background: #eaf7fb;
+    color: #1e7f8c;
+    content: '+';
+    font-size: 34px;
+    font-weight: 400;
+  }
 
   h1 {
     margin-bottom: 8px;
   }
 
-  p {
-    margin: 0;
-  }
+  p { margin: 0; }
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .campo {
   display: flex;
   flex-direction: column;
   gap: 8px;
-
-  label {
-    font-weight: 600;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
 }
 
-button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.mensaje {
-  margin: 0;
-  padding: 12px;
-  border-radius: 6px;
-  background: #f0f0f0;
-}
-
-@media (max-width: 600px) {
-  .login {
-    margin: 20px;
-    padding: 10px;
-  }
-
-  .login-contenedor {
-    padding: 20px;
-  }
-}
+form button { min-height: 48px; margin-top: 4px; }
+form .mensaje { margin: 0; }
